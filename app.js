@@ -49,7 +49,7 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
     let { email, password } = req.body;
     let user = await userModel.findOne({ email: email });
-    if (user == null) return res.send("Something went wrong");
+    if (user == null) return res.send("No users with such credentials.");
 
     bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
@@ -69,7 +69,7 @@ app.get('/logout', (req, res) => {
 
 let isLoggedIn = (req, res, next) => {
     if (req.cookies.token === "") {
-        res.send("You must be logged in")
+        res.redirect("/login")
     } else {
         let data = jwt.verify(req.cookies.token, "scretKey");
         req.user = data;
@@ -78,7 +78,11 @@ let isLoggedIn = (req, res, next) => {
 }
 
 app.get('/profile', isLoggedIn , (req, res) => {
-    res.send(req.user.email);
+    res.render("profile");
+});
+
+app.get('/post/create', isLoggedIn, (req, res) => {
+    res.send("Wait")
 })
 
 app.listen(3000, () => {
