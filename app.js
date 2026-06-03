@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const userModel = require('./models/user');
+const postModel = require('./models/post');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -77,12 +78,33 @@ let isLoggedIn = (req, res, next) => {
     next();
 }
 
-app.get('/profile', isLoggedIn , (req, res) => {
-    res.render("profile");
+app.get('/profile', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render("profile", { user });
 });
 
 app.get('/post/create', isLoggedIn, (req, res) => {
-    res.send("Wait")
+    res.render("createPost")
+});
+
+app.post('/post/create', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    let {postName, content} = req.body;
+
+    let post = await postModel.create({
+        user: user._id,
+        postName: postName,
+        content: content,
+    });
+
+    user.posts.push(post._id);
+    await user.save();
+    res.redirect('/profile/post');
+});
+
+app.get('/profile/post', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email }).populate("posts");
+    res.render("profilePost", {user})
 })
 
 app.listen(3000, () => {

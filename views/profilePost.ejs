@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your posts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body class="bg-[#FBF9F6] text-[#191919] min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <h2 class="mt-6 text-2xl font-medium tracking-tight text-[#191919]">
+            Hi, <%= user.name %>
+        </h2>
+        <p class="mt-2 text-sm text-[#6B6B6B]">
+            Here are your posts
+        </p>
+    </div>
+
+    <div class="w-full mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center justify-center px-5">
+        <% user.posts.reverse().forEach((post)=> { %>
+            <div
+                class="h-60 max-w-md mx-auto p-4 bg-[#FBF9F4] border border-[#EBE5DA] rounded-lg font-sans text-[#1A1816]">
+                <div class="mb-3">
+                    <h3 class="text-lg font-semibold text-[#11100F] tracking-tight leading-snug">
+                        <%= post.postName %>
+                    </h3>
+                    <div class="flex items-center gap-2 text-xs text-[#6B645C] mt-1">
+                        <span>By <span class="font-medium text-[#383530]"><%= user.name %></span></span>
+                        <span class="text-[#D9CEBF]">•</span>
+                        <time datetime="2026-06-03"><%= post.date %></time>
+                    </div>
+                </div>
+
+                <div class="text-sm text-[#383530] leading-relaxed space-y-2 mb-4">
+                    <p>
+                        <%= post.content %>
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-[#EBE5DA] flex items-center justify-between">
+                    <button
+                        class="flex items-center gap-1.5 text-xs font-medium text-[#6B645C] hover:text-[#11100F] transition-colors duration-200 group">
+                        <span>Like</span>
+                    </button>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+    <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 border border-[#E8E3DA] rounded-xl sm:px-10">
+            <div class="mb-6 text-center">
+                <p class="text-sm text-[#6B6B6B]">
+                    Want to navigate through?
+                </p>
+            </div>
+            <div class="pt-2">
+                <a href="/post/create"
+                    class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                    Create a post
+                </a>
+            </div>
+            <div class="pt-2">
+                <a href="/profile"
+                    class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                    Profile
+                </a>
+            </div>
+            <div class="pt-2">
+                <a href="/"
+                    class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                    Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
