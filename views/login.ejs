@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body class="bg-[#FBF9F6] text-[#191919] min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <h2 class="mt-6 text-2xl font-medium tracking-tight text-[#191919]">
+            Welcome back
+        </h2>
+        <p class="mt-2 text-sm text-[#6B6B6B]">
+            Sign in to continue to your dashboard.
+        </p>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 border border-[#E8E3DA] rounded-xl sm:px-10">
+            <form class="space-y-5" action="/login" method="POST">
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-[#191919]">
+                        Email address
+                    </label>
+                    <div class="mt-1">
+                        <input id="email" name="email" type="email" required autocomplete="email"
+                            placeholder="tyrion@example.com"
+                            class="appearance-none block w-full px-3 py-2.5 border border-[#E8E3DA] rounded-lg placeholder-[#A3A3A3] focus:outline-none focus:ring-1 focus:ring-[#D97706] focus:border-[#D97706] text-sm bg-[#FBF9F6]/50">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label for="password" class="block text-sm font-medium text-[#191919]">
+                            Password
+                        </label>
+                    </div>
+                    <div class="mt-1">
+                        <input id="password" name="password" type="password" required placeholder="••••••••"
+                            class="appearance-none block w-full px-3 py-2.5 border border-[#E8E3DA] rounded-lg placeholder-[#A3A3A3] focus:outline-none focus:ring-1 focus:ring-[#D97706] focus:border-[#D97706] text-sm bg-[#FBF9F6]/50">
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <input type="submit" value="Login"
+                        class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                    
+                    </input>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-[#6B6B6B]">
+                    Don't have an account?
+                    <a href="/register" class="font-medium text-[#D97706] hover:text-[#B45309] transition-colors duration-150">
+                        Create one
+                    </a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
