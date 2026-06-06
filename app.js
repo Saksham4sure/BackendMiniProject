@@ -117,6 +117,17 @@ app.get('/profile/post', isLoggedIn, async (req, res) => {
     res.render("profilePost", { user })
 })
 
+app.get('/edit/:id', isLoggedIn , async (req,res) => {
+    let post = await postModel.findOne({_id: req.params.id});
+    res.render("editPost", {post})
+})
+
+app.post('/edit/:id', isLoggedIn , async (req,res) => {
+    let {postName, content} = req.body;
+    let post = await postModel.findOneAndUpdate({_id: req.params.id}, {postName: postName, content: content});
+    res.redirect('/profile/post')
+})
+
 app.get('/post', checkGuest, async (req, res) => {
     let allPosts = await postModel.find().populate("user");
     res.render('posts', { allPosts, user: req.user})
