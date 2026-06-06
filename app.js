@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const user = require('./models/user');
+const post = require('./models/post');
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -35,7 +36,7 @@ app.post('/register', async (req, res) => {
                 password: hash
             });
 
-            let token = jwt.sign({ email: email, userid: createdUser._id }, "scretKey");
+            let token = jwt.sign({ emai: email, userId: createdUser._id }, "scretKey");
             res.cookie("token", token);
             res.redirect("/login")
         });
@@ -54,7 +55,7 @@ app.post('/login', async (req, res) => {
 
     bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
-            let token = jwt.sign({ email: email, userid: user._id }, "scretKey");
+            let token = jwt.sign({ email: email, userId: user._id }, "scretKey");
             res.cookie("token", token);
             res.redirect("/");
         } else {
@@ -68,13 +69,22 @@ app.get('/logout', (req, res) => {
     res.redirect("/login")
 });
 
-let isLoggedIn = (req, res, next) => {
-    if (req.cookies.token === "") {
-        res.redirect("/login")
-    } else {
-        let data = jwt.verify(req.cookies.token, "scretKey");
-        req.user = data;
+let checkGuest = (req, res, next) => {
+    if (req.cookies.token === "" || !req.cookies.token) {
+        req.user = null;
+        return next();
     }
+    let data = jwt.verify(req.cookies.token, "scretKey");
+    req.user = data;
+    next();
+}
+
+let isLoggedIn = (req, res, next) => {
+    if (req.cookies.token === "" || !req.cookies.token) {
+        return res.redirect("/login")
+    }
+    let data = jwt.verify(req.cookies.token, "scretKey");
+    req.user = data;
     next();
 }
 
@@ -89,7 +99,7 @@ app.get('/post/create', isLoggedIn, (req, res) => {
 
 app.post('/post/create', isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email });
-    let {postName, content} = req.body;
+    let { postName, content } = req.body;
 
     let post = await postModel.create({
         user: user._id,
@@ -104,7 +114,25 @@ app.post('/post/create', isLoggedIn, async (req, res) => {
 
 app.get('/profile/post', isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email }).populate("posts");
-    res.render("profilePost", {user})
+    res.render("profilePost", { user })
+})
+
+app.get('/post', checkGuest, async (req, res) => {
+    let allPosts = await postModel.find().populate("user");
+    res.render('posts', { allPosts, user: req.user})
+})
+
+app.get('/like/:id', isLoggedIn, async (req, res) => {
+    let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+    if (!post) return res.send("Ghara jaau babu");
+
+    if (post.likes.indexOf(req.user.userId) === -1) {
+        post.likes.push(req.user.userId);
+    } else {
+        post.likes.splice(post.likes.indexOf(req.user.userId), 1);
+    }
+    await post.save();
+    res.redirect("/post");
 })
 
 app.listen(3000, () => {
