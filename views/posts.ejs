@@ -15,79 +15,78 @@
         <h2 class="mt-6 text-2xl font-medium tracking-tight text-[#191919]">
             All posts
         </h2>
-        <p class="mt-2 text-sm text-[#6B6B6B]">
-            Here are all the posts
-        </p>
-        <% console.log(user) %>
     </div>
+    <% if (allPosts> 1){ %>
+        <div class="w-full mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center justify-center px-5">
+            <% allPosts.reverse().forEach((post)=> { %>
+                <div
+                    class="h-60 max-w-md mx-auto p-4 bg-[#FBF9F4] border border-[#EBE5DA] rounded-lg font-sans text-[#1A1816]">
+                    <div class="`mb-3">
+                        <h3 class="text-lg font-semibold text-[#11100F] tracking-tight leading-snug">
+                            <%= post.postName %>
+                        </h3>
+                        <div class="flex items-center gap-2 text-xs text-[#6B645C] mt-1">
+                            <span>By <span class="font-medium text-[#383530]">
+                                    <%= post.user.name %>
+                                </span></span>
+                            <span class="text-[#D9CEBF]">•</span>
+                            <time datetime="2026-06-03">
+                                <%= post.date %>
+                            </time>
+                        </div>
+                    </div>
 
-    <div class="w-full mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center justify-center px-5">
-        <% allPosts.reverse().forEach((post)=> { %>
-            <div
-                class="h-60 max-w-md mx-auto p-4 bg-[#FBF9F4] border border-[#EBE5DA] rounded-lg font-sans text-[#1A1816]">
-                <div class="`mb-3">
-                    <h3 class="text-lg font-semibold text-[#11100F] tracking-tight leading-snug">
-                        <%= post.postName %>
-                    </h3>
-                    <div class="flex items-center gap-2 text-xs text-[#6B645C] mt-1">
-                        <span>By <span class="font-medium text-[#383530]">
-                                <%= post.user.name %>
-                            </span></span>
-                        <span class="text-[#D9CEBF]">•</span>
-                        <time datetime="2026-06-03">
-                            <%= post.date %>
-                        </time>
+                    <div class="text-sm text-[#383530] leading-relaxed space-y-2 mb-4">
+                        <p>
+                            <%= post.content %>
+                        </p>
+                    </div>
+
+                    <div class="pt-3 border-t border-[#EBE5DA] flex items-center justify-between">
+                        <p>
+                            <%= post.likes.length %> likes
+                        </p>
+                        <a href="/like/<%= post._id %>"
+                            class="flex items-center gap-1.5 text-2xl font-medium text-[#6B645C] hover:text-[#11100F] transition-colors duration-200 group">
+                            <span>
+                                <%= post.likes.indexOf(user.userId)===-1 ? "♡" : "♥" %>
+                            </span>
+                        </a>
                     </div>
                 </div>
+                <% }) %>
+                    <% } else { %>
+                        <h1 class="w-full mt-10 flex items-center justify-center text-xl">There are no posts</h1>
+                        <% } %>
+        </div>
 
-                <div class="text-sm text-[#383530] leading-relaxed space-y-2 mb-4">
-                    <p>
-                        <%= post.content %>
+        <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="bg-white py-8 px-4 border border-[#E8E3DA] rounded-xl sm:px-10">
+                <div class="mb-6 text-center">
+                    <p class="text-sm text-[#6B6B6B]">
+                        Want to navigate through?
                     </p>
                 </div>
-
-                <div class="pt-3 border-t border-[#EBE5DA] flex items-center justify-between">
-                    <p>
-                        <%= post.likes.length %> likes
-                    </p>
-                    <a href="/like/<%= post._id %>"
-                        class="flex items-center gap-1.5 text-2xl font-medium text-[#6B645C] hover:text-[#11100F] transition-colors duration-200 group">
-                        <span>
-                            <%= post.likes.indexOf(user.userId)===-1 ? "♡" : "♥" %>
-                        </span>
+                <div class="pt-2">
+                    <a href="/post/create"
+                        class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                        Create a post
+                    </a>
+                </div>
+                <div class="pt-2">
+                    <a href="/login"
+                        class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                        Login
+                    </a>
+                </div>
+                <div class="pt-2">
+                    <a href="/"
+                        class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
+                        Home
                     </a>
                 </div>
             </div>
-            <% }) %>
-    </div>
-
-    <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 border border-[#E8E3DA] rounded-xl sm:px-10">
-            <div class="mb-6 text-center">
-                <p class="text-sm text-[#6B6B6B]">
-                    Want to navigate through?
-                </p>
-            </div>
-            <div class="pt-2">
-                <a href="/post/create"
-                    class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
-                    Create a post
-                </a>
-            </div>
-            <div class="pt-2">
-                <a href="/login"
-                    class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
-                    Login
-                </a>
-            </div>
-            <div class="pt-2">
-                <a href="/"
-                    class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[#D97706] hover:bg-[#B45309] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#D97706] transition-colors duration-200">
-                    Home
-                </a>
-            </div>
         </div>
-    </div>
 
 </body>
 

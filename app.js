@@ -128,6 +128,11 @@ app.post('/edit/:id', isLoggedIn , async (req,res) => {
     res.redirect('/profile/post')
 })
 
+app.get('/delete/:id', isLoggedIn , async (req,res) => {
+    let post = await postModel.deleteOne({_id: req.params.id});
+    res.redirect('/profile/post')
+})
+
 app.get('/post', checkGuest, async (req, res) => {
     let allPosts = await postModel.find().populate("user");
     res.render('posts', { allPosts, user: req.user})

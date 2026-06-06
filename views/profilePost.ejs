@@ -44,8 +44,12 @@
 
                 <div class="pt-3 border-t border-[#EBE5DA] flex items-center justify-between">
                     <a href="/edit/<%= post._id %>"
-                        class="flex items-center gap-1.5 text-md font-medium text-[#6B645C] hover:text-[#11100F] transition-colors duration-200 group">
+                        class="flex items-center gap-1.5 text-md font-medium text-[#6B645C] hover:text-[#0000ff] transition-colors duration-200 group">
                         <span>Edit</span>
+                    </a>
+                    <a href="/delete/<%= post._id %>"
+                        class="flex items-center gap-1.5 text-md font-medium text-[#6B645C] hover:text-[#ff0000] transition-colors duration-200 group">
+                        <span>Delete</span>
                     </a>
                 </div>
             </div>
